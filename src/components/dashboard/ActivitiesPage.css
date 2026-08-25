@@ -1,0 +1,104 @@
+.activities-page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.activities-page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.activities-page-hint {
+  font-size: 14px;
+  color: var(--text);
+  margin: 0;
+}
+
+.activities-new-btn {
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 9px 16px;
+  border-radius: 8px;
+  border: none;
+  background: var(--accent);
+  color: #fff;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  white-space: nowrap;
+}
+
+.activities-new-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.activities-new-btn:not(:disabled):hover {
+  opacity: 0.9;
+}
+
+.activities-error {
+  color: var(--danger);
+  font-size: 14px;
+  margin: 0;
+}
+
+.activities-feed {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.activity-item {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.activity-item-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.activity-lead-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-h);
+}
+
+.activity-date {
+  font-size: 12px;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.activity-type-badge {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 500;
+  background: var(--code-bg);
+  color: var(--text-h);
+}
+
+.activity-description {
+  font-size: 14px;
+  color: var(--text);
+  margin: 0;
+  white-space: pre-wrap;
+}
