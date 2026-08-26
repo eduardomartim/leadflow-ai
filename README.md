@@ -82,7 +82,8 @@ The schema (tables, RLS policies, onboarding trigger, demo mode) lives in `supab
 
 ## Screenshots
 
-_Screenshots will be added here._
+<img width="1920" height="1080" alt="tela LeadFlow" src="https://github.com/user-attachments/assets/6d81ffb5-ded5-4194-a196-aa3202907704" />
+
 
 ## AI & Production Architecture
 
