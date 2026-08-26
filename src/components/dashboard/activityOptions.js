@@ -35,17 +35,6 @@ export function activityTypeIcon(value) {
   return ACTIVITY_TYPE_OPTIONS.find((option) => option.value === value)?.icon || OtherIcon
 }
 
-export function formatDateTime(value) {
-  if (!value) return '—'
-  return new Intl.DateTimeFormat('pt-BR', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-  }).format(new Date(value))
-}
-
 const MINUTE = 60 * 1000
 const HOUR = 60 * MINUTE
 const DAY = 24 * HOUR

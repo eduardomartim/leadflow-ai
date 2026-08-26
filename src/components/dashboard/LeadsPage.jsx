@@ -603,7 +603,6 @@ export default function LeadsPage() {
       {loggingActivityFor && (
         <ActivityFormModal
           lockedLead={loggingActivityFor}
-          leadOptions={[]}
           submitting={activitySubmitting}
           onSubmit={handleLogActivity}
           onClose={() => setLoggingActivityFor(null)}

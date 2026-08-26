@@ -5,19 +5,7 @@ import './Modal.css'
 import './LeadFormModal.css'
 import './LeadsPage.css'
 
-const EMPTY_FORM = {
-  name: '',
-  email: '',
-  phone: '',
-  company_name: '',
-  source: 'other',
-  status: 'new',
-  estimated_value: '',
-  notes: '',
-}
-
 function toFormValues(lead) {
-  if (!lead) return EMPTY_FORM
   return {
     name: lead.name || '',
     email: lead.email || '',
@@ -33,8 +21,6 @@ function toFormValues(lead) {
 export default function LeadFormModal({ initialLead, submitting, onSubmit, onClose }) {
   const [values, setValues] = useState(() => toFormValues(initialLead))
   const [formError, setFormError] = useState('')
-
-  const isEditing = Boolean(initialLead)
 
   useEffect(() => {
     function handleKeyDown(event) {
@@ -76,7 +62,7 @@ export default function LeadFormModal({ initialLead, submitting, onSubmit, onClo
   return (
     <div className="modal-overlay" role="dialog" aria-modal="true" onClick={handleOverlayClick}>
       <div className="modal-panel">
-        <h2 className="modal-title">{isEditing ? 'Editar lead' : 'Novo lead'}</h2>
+        <h2 className="modal-title">Editar lead</h2>
 
         <form className="lead-form" onSubmit={handleSubmit}>
           <label className="lead-form-field">
@@ -139,7 +125,7 @@ export default function LeadFormModal({ initialLead, submitting, onSubmit, onClo
             <textarea rows={3} value={values.notes} onChange={handleChange('notes')} />
           </label>
 
-          {isEditing && initialLead?.ai_score !== null && initialLead?.ai_score !== undefined && (
+          {initialLead?.ai_score !== null && initialLead?.ai_score !== undefined && (
             <div className="lead-ai-analysis">
               <span className="lead-ai-analysis-title">Análise por IA (demonstração)</span>
               <span className={`score-badge ${scoreTier(initialLead.ai_score).className}`}>
@@ -156,7 +142,7 @@ export default function LeadFormModal({ initialLead, submitting, onSubmit, onClo
               Cancelar
             </button>
             <button type="submit" className="modal-btn-primary" disabled={submitting}>
-              {submitting ? 'Salvando…' : isEditing ? 'Salvar alterações' : 'Criar lead'}
+              {submitting ? 'Salvando…' : 'Salvar alterações'}
             </button>
           </div>
         </form>

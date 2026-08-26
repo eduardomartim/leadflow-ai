@@ -3,8 +3,7 @@ import { ACTIVITY_TYPE_OPTIONS } from './activityOptions'
 import './Modal.css'
 import './LeadFormModal.css'
 
-export default function ActivityFormModal({ lockedLead, leadOptions, submitting, onSubmit, onClose }) {
-  const [leadId, setLeadId] = useState(lockedLead ? lockedLead.id : '')
+export default function ActivityFormModal({ lockedLead, submitting, onSubmit, onClose }) {
   const [type, setType] = useState('note')
   const [description, setDescription] = useState('')
   const [formError, setFormError] = useState('')
@@ -25,17 +24,13 @@ export default function ActivityFormModal({ lockedLead, leadOptions, submitting,
     event.preventDefault()
     setFormError('')
 
-    if (!leadId) {
-      setFormError('Selecione o lead.')
-      return
-    }
     if (description.trim().length === 0) {
       setFormError('Descreva a atividade.')
       return
     }
 
     onSubmit({
-      lead_id: leadId,
+      lead_id: lockedLead.id,
       type,
       description: description.trim(),
     })
@@ -49,20 +44,7 @@ export default function ActivityFormModal({ lockedLead, leadOptions, submitting,
         <form className="lead-form" onSubmit={handleSubmit}>
           <label className="lead-form-field">
             <span>Lead</span>
-            {lockedLead ? (
-              <input type="text" value={lockedLead.name} disabled />
-            ) : (
-              <select value={leadId} onChange={(event) => setLeadId(event.target.value)} required>
-                <option value="" disabled>
-                  Selecione um lead
-                </option>
-                {leadOptions.map((lead) => (
-                  <option key={lead.id} value={lead.id}>
-                    {lead.name}
-                  </option>
-                ))}
-              </select>
-            )}
+            <input type="text" value={lockedLead.name} disabled />
           </label>
 
           <label className="lead-form-field">
