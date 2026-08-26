@@ -1,134 +1,350 @@
 .auth-screen {
+  position: relative;
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 32px 20px;
   box-sizing: border-box;
+  overflow: hidden;
+  /* Fallback only: covers the instant before the shader's first frame, and
+     any browser where WebGL context creation fails (canvas stays blank). */
+  background: #050505;
+}
+
+/* ------------------------------------------------------------------ */
+/* Background                                                           */
+/* ------------------------------------------------------------------ */
+
+.auth-shader-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Static veil enforcing the intended dark-top / light-middle / dark-bottom
+   composition regardless of where the shader's animated light patches drift
+   to at any given moment. Pure black at partial opacity — this can only ever
+   darken, never introduce a hue, so it can't compromise the monochrome look. */
+.auth-shader-veil {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.55) 0%,
+    rgba(0, 0, 0, 0.22) 20%,
+    rgba(0, 0, 0, 0) 40%,
+    rgba(0, 0, 0, 0) 60%,
+    rgba(0, 0, 0, 0.22) 80%,
+    rgba(0, 0, 0, 0.55) 100%
+  );
+}
+
+.auth-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.auth-noise {
+  position: absolute;
+  inset: 0;
+  opacity: 0.025;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 140px 140px;
+}
+
+/* ------------------------------------------------------------------ */
+/* Card + tilt wrapper                                                  */
+/* ------------------------------------------------------------------ */
+
+.auth-card-entrance {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  max-width: 400px;
+  animation: auth-rise 500ms ease both;
+}
+
+.auth-card-tilt {
+  transition: transform 200ms ease-out;
+  transform-style: preserve-3d;
 }
 
 .auth-card {
-  width: 100%;
-  max-width: 400px;
-  background: var(--bg);
+  position: relative;
+  background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 14px;
   padding: 32px;
   box-sizing: border-box;
   box-shadow: var(--shadow);
   text-align: left;
 }
 
+.auth-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), transparent 45%);
+  pointer-events: none;
+}
+
+@property --auth-beam-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+.auth-card::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: conic-gradient(
+    from var(--auth-beam-angle, 0deg),
+    transparent 0deg,
+    transparent 300deg,
+    rgba(255, 255, 255, 0.9) 336deg,
+    rgba(255, 255, 255, 0.9) 344deg,
+    transparent 360deg
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.5));
+  animation: auth-beam-rotate 6s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes auth-beam-rotate {
+  to {
+    --auth-beam-angle: 360deg;
+  }
+}
+
+@keyframes auth-rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Brand                                                                */
+/* ------------------------------------------------------------------ */
+
 .auth-brand {
+  position: relative;
   text-align: center;
   margin-bottom: 24px;
 }
 
 .auth-logo {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 44px;
-  height: 44px;
-  border-radius: 10px;
-  background: var(--accent-bg);
-  color: var(--accent);
-  font-family: var(--heading);
-  font-weight: 600;
-  font-size: 16px;
-  margin-bottom: 12px;
+  display: inline-block;
+  height: 40px;
+  width: auto;
+  margin-bottom: 16px;
+  border-radius: 8px;
 }
 
 .auth-brand h1 {
-  font-size: 28px;
-  margin: 0 0 4px;
+  font-size: 24px;
+  margin: 0 0 6px;
 }
 
 .auth-brand p {
-  font-size: 15px;
-  color: var(--text);
-}
-
-.auth-tabs {
-  display: flex;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 4px;
-  margin-bottom: 24px;
-  gap: 4px;
-}
-
-.auth-tabs button {
-  flex: 1;
-  border: none;
-  background: transparent;
-  color: var(--text);
-  font: inherit;
   font-size: 14px;
-  padding: 8px 0;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.2s, color 0.2s;
+  color: var(--text);
+  margin: 0;
 }
 
-.auth-tabs button.active {
-  background: var(--accent);
-  color: #fff;
-}
+/* ------------------------------------------------------------------ */
+/* Form                                                                 */
+/* ------------------------------------------------------------------ */
 
 .auth-form {
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 14px;
 }
 
 .auth-field {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  font-size: 14px;
+  font-size: 13px;
+  color: var(--text);
+}
+
+.auth-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.auth-input-icon {
+  position: absolute;
+  left: 12px;
+  width: 16px;
+  height: 16px;
+  color: var(--text);
+  opacity: 0.6;
+  pointer-events: none;
+  transition: color 150ms ease, opacity 150ms ease;
+}
+
+.auth-input-wrap:focus-within .auth-input-icon {
   color: var(--text-h);
+  opacity: 1;
 }
 
 .auth-field input {
   font: inherit;
   font-size: 15px;
-  padding: 10px 12px;
+  width: 100%;
+  padding: 10px 12px 10px 38px;
   border-radius: 8px;
   border: 1px solid var(--border);
   background: var(--bg);
   color: var(--text-h);
   box-sizing: border-box;
+  transition: border-color 150ms ease, background 150ms ease;
+}
+
+.auth-input-wrap-password input {
+  padding-right: 38px;
+}
+
+.auth-field input::placeholder {
+  color: var(--text-muted);
+}
+
+.auth-field input:hover {
+  border-color: var(--text-muted);
 }
 
 .auth-field input:focus-visible {
+  outline: none;
+  border-color: var(--accent-border);
+  box-shadow: 0 0 0 3px var(--accent-bg);
+}
+
+.auth-input-toggle {
+  position: absolute;
+  right: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 6px;
+  background: none;
+  color: var(--text);
+  cursor: pointer;
+  transition: color 150ms ease, background 150ms ease;
+}
+
+.auth-input-toggle svg {
+  width: 16px;
+  height: 16px;
+}
+
+.auth-input-toggle:hover {
+  color: var(--text-h);
+  background: var(--code-bg);
+}
+
+.auth-input-toggle:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 1px;
 }
 
+/* ------------------------------------------------------------------ */
+/* Feedback                                                             */
+/* ------------------------------------------------------------------ */
+
 .auth-error {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
   color: var(--danger);
-  font-size: 14px;
+  background: var(--danger-bg);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 13px;
   margin: 0;
+}
+
+.auth-error svg {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+  margin-top: 1px;
 }
 
 .auth-message {
   color: var(--accent);
-  font-size: 14px;
+  font-size: 13px;
   margin: 0;
 }
 
+/* ------------------------------------------------------------------ */
+/* Buttons                                                              */
+/* ------------------------------------------------------------------ */
+
 .auth-submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
   font: inherit;
   font-size: 15px;
   font-weight: 500;
   padding: 11px 0;
   border-radius: 8px;
   border: none;
-  background: var(--accent);
-  color: #fff;
+  background: var(--text-h);
+  color: var(--bg);
   cursor: pointer;
   transition: opacity 0.2s;
+}
+
+.auth-submit-arrow {
+  width: 14px;
+  height: 14px;
+  transition: transform 200ms ease;
+}
+
+.auth-submit:not(:disabled):hover .auth-submit-arrow {
+  transform: translateX(2px);
+}
+
+.auth-submit-spinner {
+  width: 16px;
+  height: 16px;
+  animation: auth-spin 800ms linear infinite;
+}
+
+@keyframes auth-spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .auth-submit:disabled {
@@ -138,4 +354,84 @@
 
 .auth-submit:not(:disabled):hover {
   opacity: 0.9;
+}
+
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 20px 0;
+  color: var(--text);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.auth-demo-btn {
+  width: 100%;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 11px 0;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-h);
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+  box-sizing: border-box;
+}
+
+.auth-demo-btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.auth-demo-btn:not(:disabled):hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.auth-switch {
+  text-align: center;
+  font-size: 13px;
+  color: var(--text);
+  margin: 20px 0 0;
+}
+
+.auth-switch button {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  font-weight: 500;
+  color: var(--text-h);
+  cursor: pointer;
+  text-underline-offset: 3px;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  transition: color 150ms ease, text-decoration-color 150ms ease;
+}
+
+.auth-switch button:hover {
+  color: var(--accent);
+  text-decoration-color: currentColor;
+}
+
+/* ------------------------------------------------------------------ */
+/* Responsive                                                           */
+/* ------------------------------------------------------------------ */
+
+@media (max-width: 480px) {
+  .auth-card {
+    padding: 24px 20px;
+  }
 }

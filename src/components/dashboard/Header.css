@@ -64,7 +64,6 @@
 .dashboard-user-role {
   display: inline-flex;
   align-items: center;
-  margin-left: 8px;
   padding: 2px 8px;
   border-radius: 999px;
   font-size: 11px;
@@ -73,6 +72,11 @@
   letter-spacing: 0.03em;
   background: var(--accent-bg);
   color: var(--accent);
+}
+
+.dashboard-user-role-demo {
+  background: var(--success-bg);
+  color: var(--success);
 }
 
 .dashboard-signout {

@@ -12,23 +12,6 @@ export async function listLeads() {
   return data
 }
 
-export async function listLeadMetricsRaw() {
-  const { data, error } = await supabase.from(TABLE).select('status, estimated_value')
-  if (error) throw error
-  return data
-}
-
-export async function createLead(companyId, payload) {
-  const { data, error } = await supabase
-    .from(TABLE)
-    .insert([{ ...payload, company_id: companyId }])
-    .select()
-    .single()
-
-  if (error) throw error
-  return data
-}
-
 export async function updateLead(id, payload) {
   const { data, error } = await supabase
     .from(TABLE)

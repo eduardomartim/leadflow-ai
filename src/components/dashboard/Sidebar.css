@@ -19,26 +19,11 @@
   padding: 4px 10px 24px;
 }
 
-.sidebar-logo-mark {
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  background: var(--accent-bg);
-  color: var(--accent);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--heading);
-  font-weight: 600;
-  font-size: 13px;
-  flex-shrink: 0;
-}
-
-.sidebar-brand-name {
-  font-family: var(--heading);
-  font-weight: 600;
-  font-size: 16px;
-  color: var(--text-h);
+.sidebar-logo {
+  display: block;
+  height: 28px;
+  width: auto;
+  border-radius: 6px;
 }
 
 .sidebar-nav {
@@ -76,41 +61,14 @@
 }
 
 .sidebar-nav-item.active {
-  background: var(--accent-bg);
-  color: var(--accent);
-  font-weight: 500;
-}
-
-.sidebar-footer {
-  border-top: 1px solid var(--border);
-  padding-top: 14px;
-  margin-top: 14px;
-}
-
-.sidebar-signout {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 12px;
-  border-radius: 8px;
-  border: none;
-  background: transparent;
-  color: var(--text);
-  font: inherit;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background 0.15s, color 0.15s;
-}
-
-.sidebar-signout svg {
-  width: 18px;
-  height: 18px;
-}
-
-.sidebar-signout:hover {
   background: var(--code-bg);
-  color: var(--danger);
+  color: var(--text-h);
+  font-weight: 500;
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+
+.sidebar-nav-item.active svg {
+  color: var(--accent);
 }
 
 @media (max-width: 860px) {
@@ -121,7 +79,7 @@
     bottom: 0;
     width: min(280px, 82vw);
     z-index: 40;
-    background: var(--bg);
+    background: var(--surface);
     box-shadow: var(--shadow);
     transform: translateX(-100%);
     transition: transform 0.2s ease;
@@ -135,7 +93,7 @@
     display: block;
     position: fixed;
     inset: 0;
-    background: rgba(8, 6, 13, 0.4);
+    background: rgba(0, 0, 0, 0.45);
     z-index: 30;
     opacity: 0;
     pointer-events: none;

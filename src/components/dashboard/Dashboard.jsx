@@ -30,7 +30,6 @@ export default function Dashboard() {
         onNavigate={handleNavigate}
         open={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
-        onSignOut={signOut}
       />
 
       <div className="dashboard-content">
@@ -42,7 +41,7 @@ export default function Dashboard() {
         />
 
         <main className="page-content">
-          {page === 'overview' && <OverviewPage />}
+          {page === 'overview' && <OverviewPage onNavigate={handleNavigate} />}
           {page === 'leads' && <LeadsPage />}
           {page === 'activities' && <ActivitiesPage />}
         </main>

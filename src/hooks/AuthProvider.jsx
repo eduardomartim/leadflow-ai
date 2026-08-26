@@ -37,6 +37,10 @@ export function AuthProvider({ children }) {
     return supabase.auth.signOut()
   }
 
+  function signInDemo() {
+    return supabase.auth.signInAnonymously()
+  }
+
   const value = {
     session,
     user: session?.user ?? null,
@@ -44,6 +48,7 @@ export function AuthProvider({ children }) {
     signUp,
     signIn,
     signOut,
+    signInDemo,
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

@@ -1,4 +1,5 @@
-import { OverviewIcon, LeadsIcon, ActivityIcon, LogoutIcon } from './icons'
+import { OverviewIcon, LeadsIcon, ActivityIcon } from './icons'
+import leadflowLogo from '../../assets/leadflow-logo.png'
 import './Sidebar.css'
 
 const NAV_ITEMS = [
@@ -7,15 +8,14 @@ const NAV_ITEMS = [
   { key: 'activities', label: 'Atividades', icon: ActivityIcon },
 ]
 
-export default function Sidebar({ page, onNavigate, open, onClose, onSignOut }) {
+export default function Sidebar({ page, onNavigate, open, onClose }) {
   return (
     <>
       <div className={`sidebar-backdrop ${open ? 'open' : ''}`} onClick={onClose} />
 
       <aside className={`sidebar ${open ? 'open' : ''}`}>
         <div className="sidebar-brand">
-          <span className="sidebar-logo-mark">LF</span>
-          <span className="sidebar-brand-name">LeadFlow AI</span>
+          <img src={leadflowLogo} alt="LeadFlow AI" className="sidebar-logo" />
         </div>
 
         <nav className="sidebar-nav" aria-label="Navegação principal">
@@ -32,13 +32,6 @@ export default function Sidebar({ page, onNavigate, open, onClose, onSignOut }) 
             </button>
           ))}
         </nav>
-
-        <div className="sidebar-footer">
-          <button type="button" className="sidebar-signout" onClick={onSignOut}>
-            <LogoutIcon />
-            <span>Sair</span>
-          </button>
-        </div>
       </aside>
     </>
   )

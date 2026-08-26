@@ -1,7 +1,9 @@
 :root {
   --text: #6b6375;
+  --text-muted: #9a95a3;
   --text-h: #08060d;
   --bg: #fff;
+  --surface: #fff;
   --border: #e5e4e7;
   --code-bg: #f4f3ec;
   --accent: #aa3bff;
@@ -14,6 +16,21 @@
   --social-bg: rgba(244, 243, 236, 0.5);
   --shadow:
     rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+
+  --stage-new: #6d6ae0;
+  --stage-new-bg: rgba(109, 106, 224, 0.1);
+  --stage-contacted: #2f8fd6;
+  --stage-contacted-bg: rgba(47, 143, 214, 0.1);
+  --stage-qualified: #0f9b8e;
+  --stage-qualified-bg: rgba(15, 155, 142, 0.1);
+  --stage-proposal: #c98a1f;
+  --stage-proposal-bg: rgba(201, 138, 31, 0.12);
+  --stage-negotiation: #cb5fae;
+  --stage-negotiation-bg: rgba(203, 95, 174, 0.12);
+  --stage-won: var(--success);
+  --stage-won-bg: var(--success-bg);
+  --stage-lost: var(--danger);
+  --stage-lost-bg: var(--danger-bg);
 
   --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
   --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
@@ -36,11 +53,13 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
+    --text: #a0a0a0;
+    --text-muted: #6f6f6f;
+    --text-h: #f5f5f5;
+    --bg: #0a0a0a;
+    --surface: #121212;
+    --border: #262626;
+    --code-bg: #1a1a1a;
     --accent: #c084fc;
     --accent-bg: rgba(192, 132, 252, 0.15);
     --accent-border: rgba(192, 132, 252, 0.5);
@@ -51,6 +70,21 @@
     --social-bg: rgba(47, 48, 58, 0.5);
     --shadow:
       rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+
+    --stage-new: #9c9af5;
+    --stage-new-bg: rgba(156, 154, 245, 0.14);
+    --stage-contacted: #6cb4f2;
+    --stage-contacted-bg: rgba(108, 180, 242, 0.14);
+    --stage-qualified: #4fd3c4;
+    --stage-qualified-bg: rgba(79, 211, 196, 0.14);
+    --stage-proposal: #e3b34e;
+    --stage-proposal-bg: rgba(227, 179, 78, 0.16);
+    --stage-negotiation: #e393cf;
+    --stage-negotiation-bg: rgba(227, 147, 207, 0.16);
+    --stage-won: var(--success);
+    --stage-won-bg: var(--success-bg);
+    --stage-lost: var(--danger);
+    --stage-lost-bg: var(--danger-bg);
   }
 
   #social .button-icon {
@@ -60,6 +94,17 @@
 
 body {
   margin: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 #root {

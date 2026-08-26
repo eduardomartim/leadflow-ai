@@ -5,10 +5,11 @@ Mini-CRM multi-tenant para gestão de leads, com autenticação, atividades por 
 ## Funcionalidades
 
 - **Autenticação** — cadastro (com criação automática de empresa via trigger no signup), login, logout e sessão persistente via Supabase Auth.
-- **Leads** — CRUD completo (criar, listar, editar, excluir), com nome, contato, origem, status do funil e valor estimado.
+- **Leads** — listagem, edição e exclusão de leads, com nome, contato, origem, status do funil e valor estimado. A criação de novos leads pela interface não está disponível nesta versão.
 - **Atividades** — registro de interações (ligação, e-mail, reunião, nota...) por lead, com feed cronológico.
 - **Visão geral** — métricas reais calculadas a partir dos leads da empresa (total, novos, valor estimado, taxa de conversão) e feed de atividades recentes.
 - **Score de IA (demonstração)** — heurística local que gera uma pontuação e um resumo por lead a partir de status/atividades/valor. É explicitamente uma simulação (sem custo de API), com a arquitetura preparada para trocar por uma chamada real a um LLM no futuro.
+- **Modo demonstração** — acesso somente leitura à aplicação, populada com dados de exemplo, sem necessidade de cadastro (via "Explorar demonstração" na tela de login).
 - **Multi-tenant por Row Level Security** — cada empresa só enxerga seus próprios dados; isolamento garantido no banco (Postgres RLS), não só na aplicação.
 
 ## Stack
@@ -22,7 +23,7 @@ npm install
 npm run dev
 ```
 
-Crie um arquivo `.env.local` na raiz com as credenciais do seu projeto Supabase:
+Copie `.env.example` para `.env.local` e preencha com as credenciais do seu projeto Supabase:
 
 ```
 VITE_SUPABASE_URL=https://SEU_PROJETO.supabase.co
@@ -43,11 +44,12 @@ npm run preview   # preview do build de produção
 
 ```
 src/
+  assets/                 # logo e imagens estáticas
   components/auth/       # tela de login/cadastro
   components/dashboard/  # shell (sidebar, header) e páginas (Visão geral, Leads, Atividades)
   hooks/                  # AuthProvider/useAuth, useCompanyId
   services/               # acesso a dados (Supabase) por domínio
-supabase/migrations/      # schema, RLS policies, trigger de onboarding
+supabase/migrations/      # schema, RLS policies, trigger de onboarding, modo demonstração
 ```
 
 ## Arquitetura de dados

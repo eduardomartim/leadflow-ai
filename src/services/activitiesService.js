@@ -5,7 +5,7 @@ const TABLE = 'activities'
 export async function listActivities() {
   const { data, error } = await supabase
     .from(TABLE)
-    .select('*, leads(name)')
+    .select('*, leads(name, company_name, status)')
     .order('created_at', { ascending: false })
 
   if (error) throw error

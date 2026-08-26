@@ -1,7 +1,7 @@
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(8, 6, 13, 0.45);
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -15,7 +15,7 @@
   max-width: 480px;
   max-height: 90vh;
   overflow-y: auto;
-  background: var(--bg);
+  background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 24px;
@@ -67,8 +67,8 @@
 }
 
 .modal-btn-primary {
-  background: var(--accent);
-  color: #fff;
+  background: var(--text-h);
+  color: var(--bg);
 }
 
 .modal-btn-primary:not(:disabled):hover {
